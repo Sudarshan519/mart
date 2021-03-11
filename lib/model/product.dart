@@ -12,17 +12,19 @@ class Product {
       {this.name,
       this.price,
       this.oldprice,
-      this.qty,
+      this.qty = 1,
       this.image,
       this.isSale,
       this.discount,
       this.description});
 
-  // increment(int qty) {
-  //   qty++;
-  //   print(qty);
-  // }
+  void incrementQuantity() {
+    qty++;
+  }
 
+  void decrementQuantity() {
+    qty >= 1 ? qty-- :0;
+  }
   // decrement(int qty) {
   //   return qty--;
   // }
@@ -32,7 +34,7 @@ final List<Product> product = [
   Product(
       name: 'Almonds',
       price: 499,
-      qty: 0,
+      
       image: 'assets/image.png',
       discount: 10,
       isSale: true,
@@ -41,7 +43,7 @@ final List<Product> product = [
   Product(
     name: 'Ndsjkehf',
     price: 499,
-    qty: 0,
+    
     isSale: false,
     image: 'assets/image.png',
     description:
@@ -51,7 +53,7 @@ final List<Product> product = [
   Product(
       name: 'sefae',
       price: 499,
-      qty: 0,
+     
       isSale: false,
       image: 'assets/image.png',
       description:
@@ -60,7 +62,7 @@ final List<Product> product = [
   Product(
       name: 'Almonsefads',
       price: 499,
-      qty: 0,
+      
       isSale: false,
       image: 'assets/image.png',
       description:
@@ -69,7 +71,7 @@ final List<Product> product = [
   Product(
       name: 'Aseflmondseafs',
       price: 499,
-      qty: 0,
+   
       isSale: false,
       image: 'assets/image.png',
       description:
@@ -81,7 +83,7 @@ final List<Product> topProduct = [
   Product(
       name: 'sefa',
       price: 499,
-      qty: 0,
+     
       isSale: false,
       image: 'assets/image.png',
       description:
@@ -90,7 +92,6 @@ final List<Product> topProduct = [
   Product(
       name: 'Almoseafnds',
       price: 499,
-      qty: 0,
       isSale: true,
       description:
           'Superman comic book with an alien villain who was frozen and dumped in deep space, rather than being executedSuperman comic book with an alien villain who was frozen and dumped in deep space, rather than being executedSuperman comic book with an alien villain who was frozen and dumped in deep space, rather than being executedSuperman comic book with an alien villain who was frozen and dumped in deep space, rather than being executedSuperman comic book with an alien villain who was frozen and dumped in deep space, rather than being executedSuperman comic book with an alien villain who was frozen and dumped in deep space, rather than being executedSuperman comic book with an alien villain who was frozen and dumped in deep space, rather than being executedSuperman comic book with an alien villain who was frozen and dumped in deep space, rather than being executedSuperman comic book with an alien villain who was frozen and dumped in deep space, rather than being executedSuperman comic book with an alien villain who was frozen and dumped in deep space, rather than being executedSuperman comic book with an alien villain who was frozen and dumped in deep space, rather than being executedSuperman comic book with an alien villain who was frozen and dumped in deep space, rather than being executedSuperman comic book with an alien villain who was frozen and dumped in deep space, rather than being executed',
@@ -99,7 +100,7 @@ final List<Product> topProduct = [
   Product(
       name: 'Almosefnds',
       price: 499,
-      qty: 0,
+    
       image: 'assets/image.png',
       isSale: false,
       description:
@@ -108,7 +109,7 @@ final List<Product> topProduct = [
   Product(
       name: 'Almonsefds',
       price: 499,
-      qty: 0,
+      
       image: 'assets/image.png',
       isSale: false,
       description:
@@ -117,7 +118,7 @@ final List<Product> topProduct = [
   Product(
       name: 'asefAlmonds',
       price: 499,
-      qty: 0,
+     
       isSale: false,
       image: 'assets/image.png',
       description:

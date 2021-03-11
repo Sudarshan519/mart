@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hexcolor/hexcolor.dart';
+//import 'package:hexcolor/hexcolor.dart';
 
 class AppTheme {
 //b00000
-static Color lightBackgroundColor = HexColor('#B00001');
+//static Color lightBackgroundColor = HexColor('#B00001');
 static Color lightPrimaryColor = const Color(0xfff2f2f2);
 static Color lightAccentColor = Colors.blueGrey.shade200;
-static Color lightBtnColor = HexColor('#F78A04');
+//static Color lightBtnColor = HexColor('#F78A04');
 static Color lightSalesolor = Colors.teal[300];
 static Color lightcounterbtnColor = Colors.grey[300];
 
@@ -22,7 +22,7 @@ static final lightTheme = ThemeData(
 brightness: Brightness.light,
 primaryColor: lightPrimaryColor,
 accentColor: lightAccentColor,
-backgroundColor: lightBackgroundColor,
+//backgroundColor: lightBackgroundColor,
 visualDensity: VisualDensity.adaptivePlatformDensity,
 );
 
@@ -36,5 +36,5 @@ visualDensity: VisualDensity.adaptivePlatformDensity,
 }
 
 extension ThemeExtras on ThemeData {
-Color get btnColor => AppTheme.lightBtnColor;
+//Color get btnColor => AppTheme.lightBtnColor;
 }

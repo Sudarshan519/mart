@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:martapp/model/cagtegory.dart';
-import 'package:martapp/model/cart.dart';
+import 'package:martapp/service/cartService.dart';
 import 'package:martapp/model/product.dart';
-import 'package:martapp/pages/cart.dart';
+import 'package:martapp/pages/cart_page.dart';
 import 'package:martapp/pages/product_detail.dart';
 import 'package:martapp/pages/searchbar.dart';
 
 TextStyle style = TextStyle(
     fontSize: 20, fontWeight: FontWeight.w700, fontStyle: FontStyle.normal);
-List<Product> cartList = [];
 
 class Home extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -25,73 +24,12 @@ class _HomeState extends State<Home> {
     return SingleChildScrollView(
         child: SafeArea(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(
-          children: [
-            IconButton(
-                icon: Icon(Icons.menu),
-                onPressed: () {
-                  widget.scaffoldKey.currentState.openDrawer();
-                  //  widget.scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('HEll')));
-                }),
-            SizedBox(
-              width: 10,
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  showSearch(context: context, delegate: DataSearch(listWords));
-                },
-                child: TextField(
-                  enabled: false,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      prefixIcon: IconButton(
-                          icon: Icon(Icons.search),
-                          onPressed: () {
-                            print('search tapped');
-                          }),
-                      labelStyle: style,
-                      labelText: 'What are you looking for?'),
-                ),
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) {
-                  return CartPage(cartList);
-                }));
-              },
-              icon: Icon(Icons.shopping_cart),
-            ),
-          ],
-        ),
+        AppBarPart(widget: widget),
         Text(
           'Categories',
           style: style,
         ),
-        Container(
-          //    height: 210,
-          child: Wrap(children: [
-            ...category
-                .map((p) => Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Container(
-                              color: Colors.white,
-                              child: Icon(
-                                Icons.dashboard,
-                                size: 70,
-                              )),
-                          Text(p.categoryName),
-                        ],
-                      ),
-                    ))
-                .toList()
-          ]),
-        ),
+        CategoriesContainer(),
         SizedBox(
           height: 10,
         ),
@@ -143,26 +81,105 @@ class _HomeState extends State<Home> {
         ),
         Container(
           height: 260,
-          //  color: Colors.green,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(30),color:Colors.grey[400]),
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: topProduct.length,
               itemBuilder: (_, int i) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                      onTap: () {
-                        // Navigator.of(context)
-                        //     .push(MaterialPageRoute(builder: (_) {
-                        //   return ProductDetail(topProduct[i]);
-                        // }));
-                      },
-                      child: Products(product: topProduct[i])),
+                  child: Products(product: topProduct[i]),
                 );
               }),
         ),
       ]),
     ));
+  }
+}
+
+class CategoriesContainer extends StatelessWidget {
+  const CategoriesContainer({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      //   height: 210,
+      child: Wrap(children: [
+        ...category
+            .map((p) => Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Container(
+                          color: Colors.white,
+                          child: Icon(
+                            Icons.dashboard,
+                            size: 70,
+                          )),
+                      Text(p.categoryName),
+                    ],
+                  ),
+                ))
+            .toList()
+      ]),
+    );
+  }
+}
+
+class AppBarPart extends StatelessWidget {
+  const AppBarPart({
+    Key key,
+    @required this.widget,
+  }) : super(key: key);
+
+  final Home widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        IconButton(
+            icon: Icon(Icons.menu),
+            onPressed: () {
+              widget.scaffoldKey.currentState.openDrawer();
+              //  widget.scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('HEll')));
+            }),
+        SizedBox(
+          width: 10,
+        ),
+        Expanded(
+          child: GestureDetector(
+            onTap: () {
+              showSearch(context: context, delegate: DataSearch(listWords));
+            },
+            child: TextField(
+              enabled: false,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  prefixIcon: IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () {
+                        print('search tapped');
+                      }),
+                  labelStyle: style,
+                  labelText: 'What are you looking for?'),
+            ),
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (_) {
+              return CartPage();
+            }));
+          },
+          icon: Icon(Icons.shopping_cart),
+        ),
+      ],
+    );
   }
 }
 
@@ -246,12 +263,12 @@ class _ProductsState extends State<Products> {
                     ),
                     child: InkWell(
                         onTap: () {
-                          if (cartList.contains(widget.product))
-                            cartList.remove(widget.product);
+                          if (cart.cartList.contains(widget.product))
+                            cart.decreaseItemQuantity(widget.product);
                           countItem(widget.product);
                         },
                         child: Icon(Icons.remove))),
-                Text('${productCount}'),
+                Text('${widget.product.qty}'),
                 Container(
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
@@ -261,11 +278,7 @@ class _ProductsState extends State<Products> {
                     ),
                     child: InkWell(
                         onTap: () {
-                          // if (cartList.contains(product)) {
-                          //   //  cartList.;
-
-                          // }
-                          cartList.add(widget.product);
+                          cart.addProduct(widget.product);
                           countItem(widget.product);
                         },
                         child: Icon(Icons.add))),
@@ -280,22 +293,22 @@ class _ProductsState extends State<Products> {
   }
 
   countItem(p) {
-    var map = Map();
+    // var map = Map();
 
-    cartList.forEach((p) {
-      if (!map.containsKey(p)) {
-        map[p] = 1;
-      } else {
-        map[p] += 1;
-      }
-    });
-    print(map[p]);
+    // cartList.forEach((p) {
+    //   if (!map.containsKey(p)) {
+    //     map[p] = 1;
+    //   } else {
+    //     map[p] += 1;
+    //   }
+    // });
+    // print(map[p]);
 
     setState(() {
-      if (map[p] == null)
+      if (p.qty == null)
         productCount = 0;
       else
-        productCount = map[p];
+        productCount = p.qty;
     });
   }
 }

@@ -17,7 +17,7 @@ class MyTextField extends StatelessWidget {
         else
           return null;
       },
-      autovalidate: true,
+    //  autovalidate: true,
     );
   }
 }
